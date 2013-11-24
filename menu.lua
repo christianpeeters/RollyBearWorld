@@ -1,3 +1,5 @@
+-- Rolly Bear World Project by Christian Peeters
+-- See all tutorial @christian.peeters.com
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
@@ -15,7 +17,7 @@ function scene:createScene( event )
 
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
-	print("rachael")
+
 
 	local title = display.newText( "Rolly Bear World", 0, 0, "Helvetica", 38 )
 	title.x = centerX
