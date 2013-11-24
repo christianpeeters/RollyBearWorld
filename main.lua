@@ -12,4 +12,4 @@ leftScrn = display.screenOriginX
 local storyboard = require ("storyboard")
 storyboard.purgeOnSceneChange = true
 
-storyboard.gotoScene ( "menu", { effect = "slideDown"} )
+storyboard.gotoScene ( "menu", { effect = "fade"} )

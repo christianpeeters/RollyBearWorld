@@ -18,32 +18,16 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-
-	local title = display.newText( "Rolly Bear World", 0, 0, "Helvetica", 38 )
+	local title = display.newText( "Options", 0, 0, "Helvetica", 38 )
 	title.x = centerX
 	title.y = display.screenOriginY + 40
 	group:insert(title)
 	
-	local playBtn = display.newText(  "Start game", 0, 0, "Helvetica", 25 )
-	playBtn.x = centerX
-	playBtn.y = centerY
-	playBtn.destination = "levels" 
-	playBtn:addEventListener("tap", btnTap)
-	group:insert(playBtn)
-	
-	local optionsBtn = display.newText(  "Options", 0, 0, "Helvetica", 25 )
-	optionsBtn.x = centerX
-	optionsBtn.y = centerY + 80 
-	optionsBtn.destination = "options" 
-	optionsBtn:addEventListener("tap", btnTap)
-	group:insert (optionsBtn)
-	
-	local creditsBtn = display.newText(  "Credits", 0, 0, "Helvetica", 25 )
-	creditsBtn.x = centerX
-	creditsBtn.y = centerY + 160
-	creditsBtn.destination = "gamecredits" 
-	creditsBtn:addEventListener("tap", btnTap)
-	group:insert (creditsBtn)
+	local backbtn = display.newText(  "Back", 0, 0, "Helvetica", 25 )
+	backbtn.y = heightScrn - backbtn.height 
+	backbtn.destination = "menu" 
+	backbtn:addEventListener("tap", btnTap)
+	group:insert(backbtn)
 	
 end
 
