@@ -6,6 +6,19 @@ local scene = storyboard.newScene()
 
 -- local forward references should go here --
 
+levels = 
+{	
+1, 2, 2, 2 , 2,  --1 means level is open to be played 
+2, 2, 2, 2, 2,   --2 means level is locked 
+2, 2, 2, 2, 2   
+}
+	
+images ={
+	{ getFile = "images/leveliconnotpressed.png", types = "play"   },
+	{ getFile = "images/levellocked.png", types = "locked"}
+	
+}
+
 local function btnTap(event)
 	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )
 	return true
@@ -18,17 +31,42 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-	local title = display.newText( "Level Selection", 0, 0, "Helvetica", 38 )
+	local levelIndex =0
+		for i=0,1 do
+			for j=1,5 do
+				tablePlace =   i*5 + j	
+				levelIndex = levelIndex + 1
+					local imagesId = levels[levelIndex] 
+						levelImg = display.newImageRect (images[imagesId].getFile , 150, 150 )
+						levelImg.x = 120 + (j* 175 )
+						levelImg.y  = 300 + (i* 175 )
+						group:insert(levelImg)
+
+
+						if images[imagesId].types == "play" then
+						leveltxt = display.newText("Level "..tostring(tablePlace), 0,0, "Helvetica", 30)
+						leveltxt.x = 120 + (j*175)
+						leveltxt .y = 300+ (i*175)
+						leveltxt:setTextColor (250, 255, 251)
+						group:insert (leveltxt)
+						end 				   
+						
+end
+	
+end
+
+	local title= display.newImage ("images/levelstitle.png")
 	title.x = centerX
-	title.y = display.screenOriginY + 40
+	title.y  = topScrn + title.height 
 	group:insert(title)
 	
-	local backbtn = display.newText(  "Back", 0, 0, "Helvetica", 25 )
-	backbtn.y = heightScrn - backbtn.height 
+	local backbtn = display.newImage ("images/reloadbutton.png")
+	backbtn.y = heightScrn - 0.6 * backbtn.height 
+	backbtn.x = .6 * backbtn.width 
 	backbtn.destination = "menu" 
 	backbtn:addEventListener("tap", btnTap)
 	group:insert(backbtn)
-	
+
 end
 
 
@@ -37,6 +75,9 @@ function scene:enterScene( event )
 	local group = self.view
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
+
+	
+	
 
 end
 

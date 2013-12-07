@@ -3,8 +3,10 @@
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
+local widget = require("widget")
 
 -- local forward references should go here --
+
 
 local function btnTap(event)
 	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )
@@ -19,31 +21,113 @@ function scene:createScene( event )
 	-- Example use-case: Restore 'group' from previously saved state.
 
 
-	local title = display.newText( "Rolly Bear World", 0, 0, "Helvetica", 38 )
+
+	local title = display.newImage( "images/gameTitle.png" )
 	title.x = centerX
-	title.y = display.screenOriginY + 40
+	title.y  = topScrn + title.height 
 	group:insert(title)
+
+	local floor = display.newImage ("images/floortitlescreen.png")
+	floor.y = heightScrn
+	group:insert(floor)
+
+
+	local chestClosed = display.newImage("images/chestclosed.png")
+	chestClosed.x = display.screenOriginX + 1.3 * chestClosed.width 
+	chestClosed.y = floor.y - floor.height 
+	group:insert(chestClosed)
+
+
+
+	local function openChest()
+
+		-- chest animation
+		display.remove( chestClosed)
+		local chestOpen = display.newImage("images/chestopen.png")
+		chestOpen.x = display.screenOriginX + 1.3 * chestOpen.width 
+		chestOpen.y = floor.y - floor.height
+		group:insert(chestOpen)
+		-- heart / trophy animation 
+		local trophy = display.newImage ("images/heart64.png")
+		trophy.x = display.screenOriginX + 1.3 * chestClosed.width
+		trophy.y = floor.y - floor.height 
+		group:insert (trophy)
+		local function fadeAway()
+		transition.to( trophy, { time = 1500, xScale = 0, yScale =0 } )
+		end
+		transition.to( trophy, { time = 1300, y = centerY, xScale = 1.2, yScale = 1.2, onComplete = fadeAway}  )
+	end
 	
-	local playBtn = display.newText(  "Start game", 0, 0, "Helvetica", 25 )
+	chestClosed:addEventListener("tap", openChest)
+
+
+
+	local rollybear = display.newImage("images/rollybeartitlescreen.png")
+	rollybear.x = withScrn - 144 
+	rollybear.y = heightScrn * 1.5
+	rollybear.xScale = .45
+	rollybear.yScale = .45
+	transition.to( rollybear, {time= 1500, y = chestClosed.y -30 } )
+	group:insert(rollybear) 
+
+	local pipe = display.newImage("images/pipe.png")
+	pipe.x = withScrn - pipe.width 
+	pipe.y = heightScrn - 30 
+	group:insert(pipe)
+
+
+	-- create custom buttom
+	local playBtn = widget.newButton
+	{
+	width = 500,
+    height = 90,
+    defaultFile = "images/button_notpressed.png",
+    overFile = "images/button_pressed.png",
+    label="Play Game",
+	labelColor = { default = { 250, 255, 250}, 
+						over ={0,0,0  }},
+	fontSize = "46",
+	}
 	playBtn.x = centerX
-	playBtn.y = centerY
-	playBtn.destination = "levels" 
+	playBtn.y = centerY*1.2 - 1.2*playBtn.height
+	playBtn.destination = "levels"
 	playBtn:addEventListener("tap", btnTap)
 	group:insert(playBtn)
-	
-	local optionsBtn = display.newText(  "Options", 0, 0, "Helvetica", 25 )
+
+	local optionsBtn = widget.newButton
+	{
+	width = 500,
+    height = 90,
+    defaultFile = "images/button_notpressed.png",
+    overFile = "images/button_pressed.png",
+    label="Options",
+	labelColor = { default = { 250, 255, 250}, 
+						over ={0,0,0  }},
+	fontSize = "46",
+	}
 	optionsBtn.x = centerX
-	optionsBtn.y = centerY + 80 
-	optionsBtn.destination = "options" 
+	optionsBtn.y = centerY*1.2
+	optionsBtn.destination = "options"
 	optionsBtn:addEventListener("tap", btnTap)
-	group:insert (optionsBtn)
-	
-	local creditsBtn = display.newText(  "Credits", 0, 0, "Helvetica", 25 )
+	group:insert(optionsBtn)
+
+	local creditsBtn = widget.newButton
+	{
+	width = 500,
+    height = 90,
+    defaultFile = "images/button_notpressed.png",
+    overFile = "images/button_pressed.png",
+    label="Credits",
+	labelColor = { default = { 250, 255, 250}, 
+						over ={0,0,0  }},
+	fontSize = "46",
+	}
 	creditsBtn.x = centerX
-	creditsBtn.y = centerY + 160
-	creditsBtn.destination = "gamecredits" 
+	creditsBtn.y = optionsBtn.y + 1.2 *creditsBtn.height
+	creditsBtn.destination = "gamecredits"
 	creditsBtn:addEventListener("tap", btnTap)
-	group:insert (creditsBtn)
+	group:insert(creditsBtn)
+
 	
 end
 
