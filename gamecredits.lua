@@ -18,12 +18,12 @@ function scene:createScene( event )
 	-- CREATE display objects and add them to 'group' here.
 	-- Example use-case: Restore 'group' from previously saved state.
 
-	local title= display.newImage ("images/creditstitle.png")
+	local title= display.newImageRect ("images/creditstitle.png", 275, 95)
 	title.x = centerX
 	title.y  = topScrn + title.height 
 	group:insert(title)
 	
-	local backbtn = display.newImage ("images/reloadbutton.png")
+	local backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
 	backbtn.y = heightScrn - 0.6 * backbtn.height 
 	backbtn.x = .6 * backbtn.width 
 	backbtn.destination = "menu" 

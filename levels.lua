@@ -38,15 +38,14 @@ function scene:createScene( event )
 				levelIndex = levelIndex + 1
 					local imagesId = levels[levelIndex] 
 						levelImg = display.newImageRect (images[imagesId].getFile , 150, 150 )
-						levelImg.x = 120 + (j* 175 )
+						levelImg.x = 175 + (j* 175 )
 						levelImg.y  = 300 + (i* 175 )
 						group:insert(levelImg)
 
-
 						if images[imagesId].types == "play" then
 						leveltxt = display.newText("Level "..tostring(tablePlace), 0,0, "Helvetica", 30)
-						leveltxt.x = 120 + (j*175)
-						leveltxt .y = 300+ (i*175)
+						leveltxt.x = 175 + (j*175)
+						leveltxt.y = 300+ (i*175)
 						leveltxt:setTextColor (250, 255, 251)
 						group:insert (leveltxt)
 						end 				   
@@ -55,12 +54,12 @@ end
 	
 end
 
-	local title= display.newImage ("images/levelstitle.png")
+	local title= display.newImageRect ("images/levelstitle.png", 239, 95)
 	title.x = centerX
 	title.y  = topScrn + title.height 
 	group:insert(title)
 	
-	local backbtn = display.newImage ("images/reloadbutton.png")
+	local backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
 	backbtn.y = heightScrn - 0.6 * backbtn.height 
 	backbtn.x = .6 * backbtn.width 
 	backbtn.destination = "menu" 

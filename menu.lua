@@ -22,33 +22,32 @@ function scene:createScene( event )
 
 
 
-	local title = display.newImage( "images/gameTitle.png" )
+	local title = display.newImageRect( "images/gameTitle.png", 910 , 139 )
 	title.x = centerX
 	title.y  = topScrn + title.height 
 	group:insert(title)
 
-	local floor = display.newImage ("images/floortitlescreen.png")
+	local floor = display.newImageRect ("images/floortitlescreen.png", 1425	, 156		)
 	floor.y = heightScrn
+	floor.x = centerX
 	group:insert(floor)
 
 
-	local chestClosed = display.newImage("images/chestclosed.png")
+	local chestClosed = display.newImageRect("images/chestclosed.png", 128 , 128)
 	chestClosed.x = display.screenOriginX + 1.3 * chestClosed.width 
-	chestClosed.y = floor.y - floor.height 
+	chestClosed.y = floor.y - chestClosed.height
 	group:insert(chestClosed)
-
-
 
 	local function openChest()
 
 		-- chest animation
 		display.remove( chestClosed)
-		local chestOpen = display.newImage("images/chestopen.png")
+		local chestOpen = display.newImageRect("images/chestopen.png", 128, 128)
 		chestOpen.x = display.screenOriginX + 1.3 * chestOpen.width 
-		chestOpen.y = floor.y - floor.height
+		chestOpen.y = floor.y - chestClosed.height
 		group:insert(chestOpen)
 		-- heart / trophy animation 
-		local trophy = display.newImage ("images/heart64.png")
+		local trophy = display.newImageRect ("images/heart64.png", 64, 64)
 		trophy.x = display.screenOriginX + 1.3 * chestClosed.width
 		trophy.y = floor.y - floor.height 
 		group:insert (trophy)
@@ -62,7 +61,7 @@ function scene:createScene( event )
 
 
 
-	local rollybear = display.newImage("images/rollybeartitlescreen.png")
+	local rollybear = display.newImageRect("images/rollybeartitlescreen.png", 244, 239)
 	rollybear.x = withScrn - 144 
 	rollybear.y = heightScrn * 1.5
 	rollybear.xScale = .45
@@ -70,7 +69,7 @@ function scene:createScene( event )
 	transition.to( rollybear, {time= 1500, y = chestClosed.y -30 } )
 	group:insert(rollybear) 
 
-	local pipe = display.newImage("images/pipe.png")
+	local pipe = display.newImageRect("images/pipe.png", 144, 224)
 	pipe.x = withScrn - pipe.width 
 	pipe.y = heightScrn - 30 
 	group:insert(pipe)
