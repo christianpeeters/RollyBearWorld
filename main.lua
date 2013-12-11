@@ -9,6 +9,7 @@ heightScrn = display.contentHeight
 topScrn = display.screenOriginY
 leftScrn = display.screenOriginX 
 
+
 backgroundfill = display.newRect(leftScrn, topScrn, withScrn, heightScrn)
 gradient = graphics.newGradient(
  { 80, 211, 255 },
