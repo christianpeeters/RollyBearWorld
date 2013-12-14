@@ -48,6 +48,9 @@ function scene:createScene( event )
 						leveltxt.y = 300+ (i*175)
 						leveltxt:setTextColor (250, 255, 251)
 						group:insert (leveltxt)
+
+						levelImg.destination = "level0"..tostring(tablePlace)
+						levelImg:addEventListener("tap", btnTap)
 						end 				   
 						
 end
