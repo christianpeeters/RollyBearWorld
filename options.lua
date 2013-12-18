@@ -7,6 +7,8 @@ local scene = storyboard.newScene()
 -- local forward references should go here --
 
 local function btnTap(event)
+	event.target.xScale = 0.95
+	event.target.yScale =0.95
 	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )
 	return true
 end

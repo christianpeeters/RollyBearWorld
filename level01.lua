@@ -41,6 +41,24 @@ physics.addBody(bottomWall, "static", {density = 1.0, friction = 0, bounce = 1, 
 physics.addBody(leftWall, "static", {density = 1.0, friction = 0, bounce = 1, isSensor = false})
 physics.addBody(rightWall, "static", {density = 1.0, friction = 0, bounce = 1, isSensor = false})
 
+local bush01 = display.newImageRect ("images/bush01.png", 384	, 145		)
+bush01.y = heightScrn - bush01.height 
+bush01.x = display.screenOriginX + 128
+bush01.alpha = 1.0
+group:insert(bush01)
+
+local bush02 = display.newImageRect ("images/bush01.png", 384	, 145		)
+bush02.y = heightScrn - bush02.height 
+bush02.x = display.screenOriginX + 370
+bush02.alpha = 0.7
+group:insert(bush02)
+
+local backgroundBush = display.newImageRect ("images/backgroundbush.png", 1428	, 128		)
+backgroundBush.y = heightScrn - backgroundBush.height /2
+backgroundBush.x = centerX
+backgroundBush.alpha = 0.7
+group:insert(backgroundBush)
+
 local floor = display.newImageRect ("images/floortitlescreen.png", 1425	, 156		)
 floor.x = centerX; floor.y = heightScrn
 physics.addBody(floor, "static", {density = 1.0, friction = 0, bounce = 1, isSensor = false})
@@ -75,6 +93,11 @@ local function launchRollyBear (event)
 	group:insert(switchOn)
 	rollybear:applyForce(800, 30)
 	rollybear:toFront()
+	local function setPipeNormal()
+		pipe.xScale = 1.0
+		pipe.yScale = 1.0
+	end
+	transition.to( pipe, {time=100, xScale = 1.2, yScale = 1.2, onComplete=setPipeNormal}  )
 end
 switchOff:addEventListener ("tap",launchRollyBear)
 
@@ -98,8 +121,6 @@ local chestClosed = display.newImageRect("images/chestclosed.png", 128 , 128)
 chestClosed.x = withScrn - chestClosed.width 
 chestClosed.y = floor.y - chestClosed.height
 group:insert(chestClosed)
-
-
 
 
 end
@@ -133,15 +154,17 @@ audioaunchBear = audio.loadSound ("audio/wee.mp3")
   				gameoverbtn.y = centerY
   				display.remove( rollybear)
   				gameoverbtn.destination = "levels" 
-  				group:insert(gameoverbtn)
   				gameoverbtn:addEventListener ("touch", btnTap)
+  				group:insert(gameoverbtn)
   				
   		end
 	end
 
 	Runtime:addEventListener("collision", onCollision)
 
+
 end
+
 
 
 -- Called when scene is about to move offscreen:

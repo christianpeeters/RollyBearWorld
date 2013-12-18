@@ -3,10 +3,12 @@
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-
+local backbtn
 -- local forward references should go here --
 
 local function btnTap(event)
+	event.target.xScale = 0.95
+	event.target.yScale =0.95
 	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )
 	return true
 end
@@ -23,7 +25,7 @@ function scene:createScene( event )
 	title.y  = topScrn + title.height 
 	group:insert(title)
 	
-	local backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
+	backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
 	backbtn.y = heightScrn - 0.6 * backbtn.height 
 	backbtn.x = .6 * backbtn.width 
 	backbtn.destination = "menu" 

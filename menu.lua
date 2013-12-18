@@ -5,6 +5,7 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
 
+
 -- local forward references should go here --
 
 
@@ -21,22 +22,67 @@ function scene:createScene( event )
 	-- Example use-case: Restore 'group' from previously saved state.
 
 
-
 	local title = display.newImageRect( "images/gameTitle.png", 910 , 139 )
 	title.x = centerX
 	title.y  = topScrn + title.height 
 	group:insert(title)
+
+	clouds ={
+	 {getFile = "images/cloud01.png"}, 
+	 {getFile = "images/cloud02.png"},
+	 {getFile = "images/cloud03.png"}
+	}
+
+	for i=0,2 do
+
+	imagesId = math.random (1,3)
+	print(imagesId)
+	local cloud = display.newImage(clouds[imagesId].getFile   )
+	cloud.x = math.random (display.screenOriginX , centerX )
+	cloud.y = math.random (display.screenOriginY + cloud.height, centerY)
+	print(cloud.x, cloud.y)
+	group:insert(cloud)
+	cloud.alpha = 0.7
+	print("alpha"..cloud.alpha)
+	transition.to( cloud, {time = math.random (30000 , 120000), x = withScrn + 300 } )
+
+	end 
+
+	local bush01 = display.newImageRect ("images/bush01.png", 384	, 145		)
+	bush01.y = heightScrn - bush01.height 
+	bush01.x = display.screenOriginX + 128
+	bush01.alpha = 1.0
+	group:insert(bush01)
+
+	local bush02 = display.newImageRect ("images/bush01.png", 384, 145		)
+	bush02.y = heightScrn - bush02.height 
+	bush02.x = display.screenOriginX + 370
+	bush02.alpha = 0.7
+	group:insert(bush02)
+
+
+	local backgroundBush = display.newImageRect ("images/backgroundbush.png", 1428	, 128		)
+	backgroundBush.y = heightScrn - backgroundBush.height /2
+	backgroundBush.x = centerX
+	backgroundBush.alpha = 0.7
+	group:insert(backgroundBush)
+
+	local fence = display.newImageRect ("images/fence02.png", 170	, 96		)
+	fence.y = heightScrn - fence.height - 30
+	fence.x = display.contentWidth - 250
+	fence.alpha = 0.8
+	group:insert(fence)
 
 	local floor = display.newImageRect ("images/floortitlescreen.png", 1425	, 156		)
 	floor.y = heightScrn
 	floor.x = centerX
 	group:insert(floor)
 
-
 	local chestClosed = display.newImageRect("images/chestclosed.png", 128 , 128)
 	chestClosed.x = display.screenOriginX + 1.3 * chestClosed.width 
-	chestClosed.y = floor.y - chestClosed.height
+	chestClosed.y = heightScrn - chestClosed.height
 	group:insert(chestClosed)
+
 
 	local function openChest()
 

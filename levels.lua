@@ -6,6 +6,7 @@ local scene = storyboard.newScene()
 
 -- local forward references should go here --
 
+
 levels = 
 {	
 1, 2, 2, 2 , 2,  --1 means level is open to be played 
@@ -20,6 +21,8 @@ images ={
 }
 
 local function btnTap(event)
+	event.target.xScale = 0.95
+	event.target.yScale =0.95
 	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )
 	return true
 end
@@ -48,7 +51,6 @@ function scene:createScene( event )
 						leveltxt.y = 300+ (i*175)
 						leveltxt:setTextColor (250, 255, 251)
 						group:insert (leveltxt)
-
 						levelImg.destination = "level0"..tostring(tablePlace)
 						levelImg:addEventListener("tap", btnTap)
 						end 				   
@@ -62,7 +64,7 @@ end
 	title.y  = topScrn + title.height 
 	group:insert(title)
 	
-	local backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
+	 backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
 	backbtn.y = heightScrn - 0.6 * backbtn.height 
 	backbtn.x = .6 * backbtn.width 
 	backbtn.destination = "menu" 
