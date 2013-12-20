@@ -28,16 +28,16 @@ function scene:createScene( event )
 	group:insert(title)
 
 	clouds ={
-	 {getFile = "images/cloud01.png"}, 
-	 {getFile = "images/cloud02.png"},
-	 {getFile = "images/cloud03.png"}
+	 {getImage = "images/cloud01.png"}, 
+	 {getImage = "images/cloud02.png"},
+	 {getImage = "images/cloud03.png"}
 	}
 
 	for i=0,2 do
 
 	imagesId = math.random (1,3)
 	print(imagesId)
-	local cloud = display.newImage(clouds[imagesId].getFile   )
+	local cloud = display.newImage(clouds[imagesId].getImage   )
 	cloud.x = math.random (display.screenOriginX , centerX )
 	cloud.y = math.random (display.screenOriginY + cloud.height, centerY)
 	print(cloud.x, cloud.y)
