@@ -1,7 +1,7 @@
 --
 -- created with TexturePacker (http://www.codeandweb.com/texturepacker)
 --
--- $TexturePacker:SmartUpdate:e2b2e8b0e67c86e3da3c4cb4d0e4e22a:1/1$
+-- $TexturePacker:SmartUpdate:b56f4218bc1580cf56c361f1f82d3931:1/1$
 --
 -- local sheetInfo = require("mysheet")
 -- local myImageSheet = graphics.newImageSheet( "mysheet.png", sheetInfo:getSheet() )
@@ -18,138 +18,138 @@ SheetInfo.sheet =
             -- crate64
             x=2,
             y=2,
-            width=32,
-            height=32,
+            width=64,
+            height=64,
 
         },
         {
             -- heart64
             x=2,
-            y=36,
-            width=32,
-            height=30,
+            y=68,
+            width=64,
+            height=60,
 
             sourceX = 0,
-            sourceY = 1,
-            sourceWidth = 32,
-            sourceHeight = 32
+            sourceY = 2,
+            sourceWidth = 64,
+            sourceHeight = 64
         },
         {
             -- platform-brown128
-            x=232,
+            x=456,
             y=2,
-            width=64,
-            height=24,
+            width=128,
+            height=48,
 
         },
         {
             -- platform-brown256
-            x=36,
-            y=28,
-            width=128,
-            height=24,
+            x=68,
+            y=52,
+            width=256,
+            height=48,
 
         },
         {
             -- platform-brown64
-            x=266,
-            y=28,
-            width=32,
-            height=24,
+            x=522,
+            y=52,
+            width=64,
+            height=48,
 
         },
         {
             -- platform-brownbrick128
-            x=166,
-            y=28,
-            width=64,
-            height=24,
+            x=326,
+            y=52,
+            width=128,
+            height=48,
 
         },
         {
             -- platform-brownbrick256
-            x=36,
+            x=68,
             y=2,
-            width=128,
-            height=24,
+            width=256,
+            height=48,
 
         },
         {
             -- platform-brownbrick512
             x=2,
-            y=68,
-            width=256,
-            height=24,
+            y=130,
+            width=512,
+            height=48,
 
         },
         {
             -- platform-brownbrick64
-            x=260,
-            y=54,
-            width=32,
-            height=24,
+            x=516,
+            y=102,
+            width=64,
+            height=48,
 
         },
         {
             -- platform-green128
-            x=298,
+            x=586,
             y=2,
+            width=128,
+            height=40,
+
+            sourceX = 0,
+            sourceY = 0,
+            sourceWidth = 128,
+            sourceHeight = 48
+        },
+        {
+            -- platform-green64
+            x=518,
+            y=152,
             width=64,
-            height=20,
+            height=40,
 
             sourceX = 0,
             sourceY = 0,
             sourceWidth = 64,
-            sourceHeight = 24
-        },
-        {
-            -- platform-green64
-            x=262,
-            y=80,
-            width=32,
-            height=20,
-
-            sourceX = 0,
-            sourceY = 0,
-            sourceWidth = 32,
-            sourceHeight = 24
+            sourceHeight = 48
         },
         {
             -- platform-rock128
-            x=166,
+            x=326,
             y=2,
-            width=64,
-            height=24,
+            width=128,
+            height=48,
 
         },
         {
             -- platform-rock256
-            x=132,
-            y=94,
-            width=128,
-            height=24,
+            x=260,
+            y=180,
+            width=256,
+            height=48,
 
         },
         {
             -- platform-rock64
-            x=232,
-            y=28,
-            width=32,
-            height=24,
+            x=456,
+            y=52,
+            width=64,
+            height=48,
 
         },
         {
             -- propellor256
             x=2,
-            y=94,
-            width=128,
-            height=24,
+            y=180,
+            width=256,
+            height=48,
 
         },
     },
     
-    sheetContentWidth = 512,
-    sheetContentHeight = 128
+    sheetContentWidth = 1024,
+    sheetContentHeight = 256
 }
 
 SheetInfo.frameIndex =

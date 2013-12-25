@@ -4,12 +4,18 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
--- local forward references should go here --
 
+-- load TexturePacker 
+local sheetInfo = require("platformSheet")
+local myPlatformSheet = graphics.newImageSheet( "platformsheet.png", sheetInfo:getSheet() )
+
+-- load Physics Engine Conona SDK
 local physics = require("physics")
+-- load physics data PhysicsEditor
+local physicsData = (require "platformshapes").physicsData(1.0)
 physics.start()
 physics.setGravity(0, 0)	
---physics.setDrawMode( "hybrid" )
+physics.setDrawMode( "hybrid" )
 local onCollision
 local audiolaunchBear
 
@@ -122,6 +128,19 @@ chestClosed.x = withScrn - chestClosed.width
 chestClosed.y = floor.y - chestClosed.height
 group:insert(chestClosed)
 
+platformNames = {"platform-brown128", "platform-brownbrick128", "platform-green128", "platform-rock128" };
+
+for x =1, #platformNames do
+	local platformNum = platformNames[x]
+	platform = display.newSprite( myPlatformSheet , {frames={sheetInfo:getFrameIndex(platformNum)}} )
+	platform.x = display.screenOriginX + 100
+	platform.y = 150 + 75 * x 
+	physics.addBody( platform, physicsData:get(platformNum))
+	platform.bodyType = "static"  
+	group:insert(platform)
+end
+
+
 
 end
 
@@ -134,6 +153,7 @@ function scene:enterScene( event )
 
 --soundeffects 
 audioaunchBear = audio.loadSound ("audio/wee.mp3")
+
 
 
  function onCollision(event)
