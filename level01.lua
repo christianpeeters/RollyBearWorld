@@ -15,7 +15,7 @@ local physics = require("physics")
 local physicsData = (require "platformshapes").physicsData(1.0)
 physics.start()
 physics.setGravity(0, 0)	
-physics.setDrawMode( "hybrid" )
+--physics.setDrawMode( "hybrid" )
 local onCollision
 local audiolaunchBear
 
@@ -128,6 +128,36 @@ chestClosed.x = withScrn - chestClosed.width
 chestClosed.y = floor.y - chestClosed.height
 group:insert(chestClosed)
 
+
+local function movePlatform(event)
+	local platformTouched = event.target
+	    	
+        if (event.phase == "began") then
+                display.getCurrentStage():setFocus( platformTouched )
+ 				
+ 				-- here the first position is stored in x and y 	         
+                platformTouched.startMoveX = platformTouched.x
+				platformTouched.startMoveY = platformTouched.y
+
+             
+        		elseif (event.phase == "moved") then
+                
+                -- here the distance is calculated between the start of the movement and its current position of the drag	 
+                	platformTouched.x = (event.x - event.xStart) + platformTouched.startMoveX
+					platformTouched.y = (event.y - event.yStart) + platformTouched.startMoveY
+								
+					
+                elseif event.phase == "ended" or event.phase == "cancelled"  then
+              	
+              	-- here the focus is removed from the last position
+                    display.getCurrentStage():setFocus( nil )
+
+                end
+                 return true
+        end
+
+
+
 platformNames = {"platform-brown128", "platform-brownbrick128", "platform-green128", "platform-rock128" };
 
 for x =1, #platformNames do
@@ -138,6 +168,7 @@ for x =1, #platformNames do
 	physics.addBody( platform, physicsData:get(platformNum))
 	platform.bodyType = "static"  
 	group:insert(platform)
+	platform:addEventListener("touch", movePlatform)
 end
 
 
