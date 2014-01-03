@@ -26,8 +26,8 @@ physics.setGravity(0, 0)
 local onCollision
 local audiolaunchBear
 local platform
-
-
+local rotationalert 
+local platformTouched
 
 
 local function btnTap(event)
@@ -57,29 +57,97 @@ createRolly()
 
 ---------------
 
+local function rotatePlatform(event)
+	 alerttouched = event.target
+
+	    	
+        if (event.phase == "began") then
+                display.getCurrentStage():setFocus( alerttouched )
+ 				
+ 				-- here the first position is stored in x and y 	         
+              
+	       elseif (event.phase == "moved") then
+
+	       				platformTouched.x2 = event.x
+	                    platformTouched.y2 = event.y
+						
+						angle1 = 180/math.pi * math.atan2(platformTouched.y1 - platformTouched.y , platformTouched.x1 - platformTouched.x)
+	                    angle2= 180/math.pi * math.atan2(platformTouched.y2 - platformTouched.y , platformTouched.x2 - platformTouched.x)
+	                  
+	                    differencebetweenangles = angle1 - angle2
+	 						
+	 				    --rotate it
+	                     platformTouched.rotation = platformTouched.rotation - differencebetweenangles
+	                     
+	                        
+	                     platformTouched.x1 = platformTouched.x2
+	                     platformTouched.y1 = platformTouched.y2
+
+
+	       	elseif event.phase == "ended" or event.phase == "cancelled"  then
+
+	       	display.getCurrentStage():setFocus( nil )
+
+	       	display.remove( rotationalert )
+	       	rotationalert = nil 
+	       	-- somehow give error with startmoveX
+	       	--timer.cancel (rotationTimer)
+
+           end 
+
+end 
+
+
+
+			
+
 
 local function movePlatform(event)
-	local platformTouched = event.target
+	 platformTouched = event.target
+
 	    	
         if (event.phase == "began") then
                 display.getCurrentStage():setFocus( platformTouched )
  				
+ 				
+ 				display.remove( rotationalert )
+ 				rotationalert = nil 
+ 					-- somehow give error with startmoveX
+	       	--timer.cancel (rotationTimer)
+	
  				-- here the first position is stored in x and y 	         
                 platformTouched.startMoveX = platformTouched.x
 				platformTouched.startMoveY = platformTouched.y
 
-             
+				platformTouched.x1 = event.x
+                platformTouched.y1 = event.y
+
+
         		elseif (event.phase == "moved") then
-                
+
                 -- here the distance is calculated between the start of the movement and its current position of the drag	 
                 	platformTouched.x = (event.x - event.xStart) + platformTouched.startMoveX
 					platformTouched.y = (event.y - event.yStart) + platformTouched.startMoveY
-								
-					
+
+						
                 elseif event.phase == "ended" or event.phase == "cancelled"  then
               	
-              	-- here the focus is removed from the last position
+              	
+              		
+ 					rotationalert = display.newImage ("images/rotation.png")
+                	rotationalert.x = platformTouched.x
+                	rotationalert.y = platformTouched.y 
+                	rotationalert.alpha = 0.5 
+                	rotationalert:addEventListener ("touch", rotatePlatform)
+                	group:insert(rotationalert)
+
+      --           		local function rotateAlert ()
+						-- rotationalert.rotation = rotationalert.rotation + 20
+						-- end
+						--rotationTimer = timer.performWithDelay(275, rotateAlert, -1)
+					-- here the focus is removed from the last position 
                     display.getCurrentStage():setFocus( nil )
+                  	
 
                 end
                  return true
@@ -96,14 +164,6 @@ for x =1, #platformNames do
 	platform.y = 150 + 75 * x 
 	physics.addBody( platform, physicsData:get(platformNum))
 	platform.bodyType = "static"  
-	
-	local function enableRotation()
-			if (objectRotation == false) then
-			objectRotation = true 
-			else
-			objectRotation = false 
-			end
-	end
 	platform:addEventListener("touch", movePlatform)
 	group:insert(platform)
 
@@ -130,8 +190,8 @@ switchOff:addEventListener ("tap",launchRollyBear)
 
 
 local backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
-	backbtn.y = centerY 
-	backbtn.x = centerX
+	backbtn.y = topScrn+ backbtn.height /2 
+	backbtn.x = withScrn - backbtn.width /2 
 	backbtn.destination = "levels" 
 	backbtn:addEventListener("tap", btnTap)
 	group:insert(backbtn)

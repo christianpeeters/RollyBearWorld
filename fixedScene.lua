@@ -70,7 +70,7 @@ function createStaticBackgroundElements()
 end
 
 function createPipe ()
-	pipe = display.newImageRect ("images/pipe.png", 144, 224)
+	pipe = display.newImageRect ("images/barrel128.png", 144, 224)
 	pipe.rotation = 90
 	physics.addBody(pipe, "static", {density = 1, friction = 0, bounce = 1, isSensor = true  })
 	myStaticgroup:insert (pipe)
