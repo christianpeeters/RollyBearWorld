@@ -18,6 +18,13 @@ function createStaticBackgroundElements()
 	physics.addBody(leftWall, "static", {density = 1.0, friction = 0, bounce = 1, isSensor = false})
 	physics.addBody(rightWall, "static", {density = 1.0, friction = 0, bounce = 1, isSensor = false})
 
+	platformboard = display.newImageRect ("images/platform_board.png", 150, 400)
+	platformboard.x = display.screenOriginX + 100
+	platformboard.y = 310 + 75 
+	platformboard.alpha = 0.8
+	physics.addBody(platformboard, "static" ,{isSensor = true } )
+	platformboard:toBack()
+
 	bush01 = display.newImageRect ("images/bush01.png", 384	, 145		)
 	bush01.y = heightScrn - bush01.height 
 	bush01.x = display.screenOriginX + 128
@@ -66,6 +73,7 @@ function createStaticBackgroundElements()
 	myStaticgroup:insert (woodSignStart)
 	myStaticgroup:insert (chestClosed)
 	myStaticgroup:insert (switchOff)
+	myStaticgroup:insert (platformboard)
 
 end
 

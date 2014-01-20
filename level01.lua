@@ -26,14 +26,24 @@ physics.setGravity(0, 0)
 local onCollision
 local audiolaunchBear
 local platform
+local totalnumPlatforms = {} -- table to store all platforms
 local rotationalert 
 local platformTouched
+local checkLocation
 
 
 local function btnTap(event)
-	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )
+	
+	event.target.xScale = 0.95
+	event.target.yScale = 0.95
+	--
+	storyboard.showOverlay( "pauseoverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )
+
 	return true
 end
+
+
+
 
 
 -- Called when the scene's view does not exist:
@@ -41,9 +51,16 @@ function scene:createScene( event )
 	local group = self.view
 	myStaticgroup = self.view 
 
+
 -- Creation of background elements based on fixedScene.lua --- 
 
+
+-- workaround to freeze the background elements when overlay is called
+
+
+
 createStaticBackgroundElements()
+
 
 
 createPipe ()
@@ -56,6 +73,30 @@ createRolly()
 	
 
 ---------------
+
+
+
+
+local pauseBtn = display.newImageRect ("images/pausebutton.png", 112, 117)
+	pauseBtn.y = 7+ (topScrn+ pauseBtn.height /2) 
+	pauseBtn.x = -7+ (withScrn - pauseBtn.width /2)
+	pauseBtn.destination = "pauseBtn"
+	pauseBtn:addEventListener("tap", btnTap)
+	group:insert(pauseBtn)
+
+end 
+
+
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene( event )
+	local group = self.view
+	myStaticgroup = self.view 
+
+
+	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
+
+--soundeffects 
+audioaunchBear = audio.loadSound ("audio/wee.mp3")
 
 local function rotatePlatform(event)
 	 alerttouched = event.target
@@ -86,10 +127,12 @@ local function rotatePlatform(event)
 
 	       	elseif event.phase == "ended" or event.phase == "cancelled"  then
 
-	       	display.getCurrentStage():setFocus( nil )
-
 	       	display.remove( rotationalert )
 	       	rotationalert = nil 
+
+	       	display.getCurrentStage():setFocus( nil )
+
+	       	
 	       	-- somehow give error with startmoveX
 	       	--timer.cancel (rotationTimer)
 
@@ -97,9 +140,6 @@ local function rotatePlatform(event)
 
 end 
 
-
-
-			
 
 
 local function movePlatform(event)
@@ -112,9 +152,7 @@ local function movePlatform(event)
  				
  				display.remove( rotationalert )
  				rotationalert = nil 
- 					-- somehow give error with startmoveX
-	       	--timer.cancel (rotationTimer)
-	
+ 		
  				-- here the first position is stored in x and y 	         
                 platformTouched.startMoveX = platformTouched.x
 				platformTouched.startMoveY = platformTouched.y
@@ -131,29 +169,21 @@ local function movePlatform(event)
 
 						
                 elseif event.phase == "ended" or event.phase == "cancelled"  then
-              	
-              	
-              		
- 					rotationalert = display.newImage ("images/rotation.png")
-                	rotationalert.x = platformTouched.x
-                	rotationalert.y = platformTouched.y 
-                	rotationalert.alpha = 0.5 
-                	rotationalert:addEventListener ("touch", rotatePlatform)
-                	group:insert(rotationalert)
 
-      --           		local function rotateAlert ()
-						-- rotationalert.rotation = rotationalert.rotation + 20
-						-- end
-						--rotationTimer = timer.performWithDelay(275, rotateAlert, -1)
-					-- here the focus is removed from the last position 
-                    display.getCurrentStage():setFocus( nil )
-                  	
-
+              	
+              		if platformTouched.x >= platformboard.x + 0.5*(platformboard.x) then
+	              		rotationalert = display.newImage ("images/rotation.png")
+	                	rotationalert.x = platformTouched.x
+	                	rotationalert.y = platformTouched.y 
+	                	rotationalert.alpha = 0.5 
+	                	group:insert(rotationalert)
+	                	rotationalert:addEventListener ("touch", rotatePlatform)
+                	end 
+	
+                	display.getCurrentStage():setFocus( nil )
                 end
                  return true
         end
-
-
 
 platformNames = {"platform-brown128", "platform-brownbrick128", "platform-green64", "platform-rock128", "crate64"};
 
@@ -162,22 +192,24 @@ for x =1, #platformNames do
 	platform = display.newSprite( myPlatformSheet , {frames={sheetInfo:getFrameIndex(platformNum)}} )
 	platform.x = display.screenOriginX + 100
 	platform.y = 150 + 75 * x 
+	totalnumPlatforms [#totalnumPlatforms+1] = platform
+	platform.platformNum= platformNum
 	physics.addBody( platform, physicsData:get(platformNum))
 	platform.bodyType = "static"  
 	platform:addEventListener("touch", movePlatform)
 	group:insert(platform)
-
 end
 
 
 local function launchRollyBear (event)
+	display.remove(rotationalert)
 	display.remove( switchOff)
 	audio.play(audioaunchBear)
 	audio.setVolume(0.01, {audioaunchBear} ) 
 	local switchOn = display.newImageRect ("images/woodleverdown.png", 64, 64)
 	switchOn.x = rock.x -10; switchOn.y = rock.y + 10
 	group:insert(switchOn)
-	rollybear:applyForce(800, 30)
+	rollybear:applyForce(800, 0)
 	rollybear:toFront()
 	local function setPipeNormal()
 		pipe.xScale = 1.0
@@ -187,27 +219,25 @@ local function launchRollyBear (event)
 end
 switchOff:addEventListener ("tap",launchRollyBear)
 
+function checkLocation()
 
+	for x = 1, #totalnumPlatforms do
+		--print(#totalnumPlatforms)
+		local platformScale = totalnumPlatforms[x]
+	
+		if platformScale.x > platformboard.x + 0.5*(platformboard.x) then
+			platformScale.xScale = 1.0
+			platformScale.yScale = 1.0
+		end
+		if platformScale.x <= platformboard.x + 0.5*(platformboard.x) then
+			platformScale.xScale = 0.7
+			platformScale.yScale = 0.7
+			platformScale.rotation = 0
+		end
 
-local backbtn = display.newImageRect ("images/reloadbutton.png", 112, 117)
-	backbtn.y = topScrn+ backbtn.height /2 
-	backbtn.x = withScrn - backbtn.width /2 
-	backbtn.destination = "levels" 
-	backbtn:addEventListener("tap", btnTap)
-	group:insert(backbtn)
+	end
 end
 
-
--- Called immediately after scene has moved onscreen:
-function scene:enterScene( event )
-	local group = self.view
-	myStaticgroup = self.view 
-
-
-	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
-
---soundeffects 
-audioaunchBear = audio.loadSound ("audio/wee.mp3")
 
 
  function onCollision(event)
@@ -221,37 +251,42 @@ audioaunchBear = audio.loadSound ("audio/wee.mp3")
 				or
 				(event.object1.myName=="floor" and event.object2.myName=="rollybear")
 			 then
-			 	-- temp solution for gameover
-  				print("yeah collision works, I hit the "..event.object1.myName)
-  				gameoverbtn = display.newText(  "GameOver", 0, 0, "Helvetica", 50)
-  				gameoverbtn.x = centerX
-  				gameoverbtn.y = centerY
-  				display.remove( rollybear)
-  				gameoverbtn.destination = "levels" 
-  				gameoverbtn:addEventListener ("touch", btnTap)
-  				group:insert(gameoverbtn)
+  				Runtime:removeEventListener("collision", onCollision)
+  				rollybear.alpha = 0 
+  				storyboard.showOverlay( "gameoveroverlay" ,{effect = "fromBottom"  ,  params ={levelNum = "level01"}, isModal = true} )
+
+
   				
-  		end
+  			end
 	end
 
 
-
-
+	Runtime:addEventListener("enterFrame", checkLocation)
 	Runtime:addEventListener("collision", onCollision)
+    
 
 
-end
 
+
+end 
 
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
 	local group = self.view
 	myStaticgroup = self.view 
-
+		
+		if totalnumPlatforms ~= {} then
+		for x = #totalnumPlatforms, 1, -1 do
+			display.remove( totalnumPlatforms[x] )
+			totalnumPlatforms[x] = nil
+		end
+		totalnumPlatforms = {}
+	end 
 
 	-- INSERT code here (e.g. stop timers, remove listeners, unload sounds, etc.)
 	-- Remove listeners attached to the Runtime, timers, transitions, audio tracks
+	
 
 end
 
@@ -260,6 +295,7 @@ end
 function scene:destroyScene( event )
 	local group = self.view
 	myStaticgroup = self.view 
+	
 
 
 
@@ -290,4 +326,5 @@ scene:addEventListener( "destroyScene", scene )
 
 ---------------------------------------------------------------------------------
 
-return scene
+return scene----------------------------------------------------------
+
