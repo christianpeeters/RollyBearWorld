@@ -36,14 +36,11 @@ function scene:createScene( event )
 	for i=0,2 do
 
 	imagesId = math.random (1,3)
-	print(imagesId)
 	local cloud = display.newImage(clouds[imagesId].getImage   )
 	cloud.x = math.random (display.screenOriginX , centerX )
 	cloud.y = math.random (display.screenOriginY + cloud.height, centerY)
-	print(cloud.x, cloud.y)
 	group:insert(cloud)
 	cloud.alpha = 0.7
-	print("alpha"..cloud.alpha)
 	transition.to( cloud, {time = math.random (30000 , 120000), x = withScrn + 300 } )
 
 	end 
@@ -227,4 +224,5 @@ scene:addEventListener( "destroyScene", scene )
 
 ---------------------------------------------------------------------------------
 
-return scene
+return scene---------------------------------------------------------
+
