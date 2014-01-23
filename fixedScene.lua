@@ -1,6 +1,11 @@
 -- Rolly Bear World Project by Christian Peeters
 -- See all tutorial @christian.peeters.com
 -- All fixed scene elements of levels and a contructor for the location of the Pipe and RollyBear
+
+local physicsData = (require "platformshapes").physicsData(1.0)
+local sheetInfo = require("platformSheet")
+local myPlatformSheet = graphics.newImageSheet( "platformsheet.png", sheetInfo:getSheet() )
+
 myStaticgroup = display.newGroup()
 
 function createStaticBackgroundElements()
@@ -57,13 +62,27 @@ function createStaticBackgroundElements()
 	woodSignEnd.rotation = -10
 	transition.to( woodSignEnd, { time=2000, x = withScrn - 250, y  =heightScrn	- floor.height / 3 })
 
+
+
 	chestClosed = display.newImageRect("images/chestclosed.png", 128 , 128)
 	chestClosed.x = withScrn - chestClosed.width 
-	chestClosed.y = floor.y - chestClosed.height
+	--chestClosed.y = floor.y - chestClosed.height
+	chestClosed.y = display.screenOriginY + 50
+	chestClosed.myName = "chestClosed"
+	physics.addBody( chestClosed, physicsData:get("chestclosed"))
+	chestClosed.bodyType = "static" 
+
+	trophy = display.newSprite( myPlatformSheet , {frames={sheetInfo:getFrameIndex("heart64")}} ) 
+	trophy.x = chestClosed.x
+	trophy.y = chestClosed.y + 20
+	physics.addBody(trophy, "static" ,{isSensor = true } )
+	trophy:toBack()
+
 
 	switchOff = display.newImageRect ("images/woodleverup.png", 64, 64)
 	switchOff.x = rock.x -10; switchOff.y = rock.y + 10
 
+	myStaticgroup:insert(trophy)
 	myStaticgroup:insert(bush01)
 	myStaticgroup:insert(backgroundBush)
 	myStaticgroup:insert(bush02)

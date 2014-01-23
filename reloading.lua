@@ -13,8 +13,8 @@ local params
 
 
 local function restartLevel (event)
-	storyboard.removeScene(params.levelNum)
-	storyboard.gotoScene (params.levelNum, {time=500, effect= "fade"})
+	storyboard.removeScene("level0"..params.curLevel)
+	storyboard.gotoScene ("level0"..params.curLevel, {time=500, effect= "fade"})
 end
 
 
@@ -24,7 +24,7 @@ function scene:createScene( event )
 	myStaticgroup = self.view 
 
 params = event.params
-print(params.levelNum)
+print(params.curLevel)
 
 loadText = display.newText("Getting RollyBear in Postion", 0, 0 , "Helvetica", 50)
 loadText.x = centerX
