@@ -5,14 +5,16 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local physics = require("physics")
 local level01 = require("level01")
-local params
+
 
 -- local forward references should go here --
 
 local function btnTap(event)
 	event.target.xScale = 0.95
-	event.target.yScale = 0.95
-	storyboard.gotoScene (  event.target.destination, {params ={curLevel = params.curLevel}, time=800, effect = "fade"} )
+	event.target.yScale =0.95
+	
+	storyboard.gotoScene (event.target.destination, {effect = "fade"} )
+
 	return true
 end
 
@@ -24,42 +26,39 @@ end
 function scene:createScene( event )
 	local group = self.view
 
-local backgroundOverlay = display.newRect (group, leftScrn-1000, topScrn-1000, withScrn+1000, heightScrn+1000)
-				backgroundOverlay:setFillColor( black )
-				backgroundOverlay.alpha = 0.6
-				backgroundOverlay.isHitTestable = true
-				backgroundOverlay:addEventListener ("tap", catchBackgroundOverlay)
-				backgroundOverlay:addEventListener ("touch", catchBackgroundOverlay)
-	
 
-local overlay = display.newImage ("images/overlayv2.png", 900 , 500)
-				overlay.x = centerX
-				overlay.y = centerY
-				group:insert (overlay)
+
+local backgroundOverlay = display.newRect (group, leftScrn-1000, topScrn-1000, withScrn+1000, heightScrn+1000)
+			backgroundOverlay:setFillColor( black )
+			backgroundOverlay.alpha = 0.6
+			backgroundOverlay.isHitTestable = true
+			backgroundOverlay:addEventListener ("tap", catchBackgroundOverlay)
+			backgroundOverlay:addEventListener ("touch", catchBackgroundOverlay)
+
+local overlay = display.newImageRect ("images/overlay_complete.png", 400 , 250)
+			overlay.x = centerX
+			overlay.y = centerY
+			group:insert (overlay)
 
 local levelBtn = display.newImageRect ("images/levelBtn.png", 112, 116 )
-				levelBtn.x = centerX
-				levelBtn.y = centerY + overlay.height/2.2
-				levelBtn.destination = "levels" 
-				levelBtn:addEventListener("tap", btnTap)
-				group:insert(levelBtn)	
+			levelBtn.x = centerX + overlay.width / 4
+			levelBtn.y = centerY + overlay.height/2.2
+			levelBtn.destination = "levels" 
+			levelBtn:addEventListener("tap", btnTap)
+			group:insert(levelBtn)	
 
-local playBtn = display.newImageRect ("images/playBtn.png", 112, 116)
-				playBtn.x = centerX - overlay.width / 3
-				playBtn.y = centerY + overlay.height/2.2
-				local function hideOverlay(event)
-					storyboard.hideOverlay("fade", 800)
-				end 
-				playBtn:addEventListener ("tap", hideOverlay)
-				group:insert(playBtn)
 
-local reloadBtn = display.newImageRect ("images/reloadbutton.png" ,112, 116)
-				reloadBtn.x = centerX + overlay.width / 3 
-				reloadBtn.y = centerY + overlay.height/2.2
-				params = event.params
-				reloadBtn.destination = "reloading"
-				reloadBtn:addEventListener ("tap", btnTap)
-				group:insert (reloadBtn)
+local nextlevelBtn = display.newImageRect ("images/nextlevelBtn.png" ,112, 116)
+			nextlevelBtn.x = centerX - overlay.width / 4
+			nextlevelBtn.y = centerY + overlay.height/2.2
+			params = event.params
+			print("curlevel value = "..params.curLevel)
+			nextLevel = params.curLevel + 1
+			nextlevelBtn.destination = "level"..tostring(nextLevel)
+			print(nextlevelBtn.destination)
+			nextlevelBtn:addEventListener ("tap", btnTap)
+			group:insert (nextlevelBtn)
+
 end
 
 
@@ -115,4 +114,4 @@ scene:addEventListener( "destroyScene", scene )
 
 ---------------------------------------------------------------------------------
 
-return scenee
+return scene

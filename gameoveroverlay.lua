@@ -13,8 +13,8 @@ local function btnTap(event)
 	event.target.xScale = 0.95
 	event.target.yScale =0.95
 	
-	storyboard.gotoScene (event.target.destination, { params ={levelNum = params.levelNum}, effect = "fade"} )
-
+	--storyboard.gotoScene (event.target.destination, { params ={levelNum = params.levelNum}, effect = "fade"} )
+	storyboard.gotoScene (event.target.destination, { params ={curLevel = params.curLevel}, effect = "fade"} )
 	return true
 end
 

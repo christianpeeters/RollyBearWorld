@@ -31,8 +31,7 @@ local totalnumPlatforms = {} -- table to store all platforms
 local rotationalert 
 local platformTouched
 local checkLocation
-local currentLevel = 1
-
+local currentLevel = 2
 
 
 local function btnTap(event)
@@ -40,7 +39,7 @@ local function btnTap(event)
 	event.target.xScale = 0.95
 	event.target.yScale = 0.95
 	--
-	storyboard.showOverlay( "pauseoverlay" ,{effect = "fade"  ,  params ={curLevel = currentLevel}, isModal = true} )
+	storyboard.showOverlay( "pauseoverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )
 
 	return true
 end
@@ -188,7 +187,7 @@ local function movePlatform(event)
                  return true
         end
 --- creation of this levels platforms 
-platformNames = {"platform-brown128", "platform-brownbrick128", "platform-green64", "platform-rock128", "crate64"};
+platformNames = {"platform-brown128", "platform-brownbrick128"};
 
 for x =1, #platformNames do
 	local platformNum = platformNames[x]
@@ -253,7 +252,6 @@ end
   				local chestopen = display.newImage("images/chestopen.png")
   				chestopen.x = chestClosed.x
   				chestopen.y = chestClosed.y 
-  				group:insert(chestopen)
   				trophy:toFront()
   				local function trophyEffect (event)
   					local function showOverlayNext()
@@ -281,8 +279,7 @@ end
 			 then
   				Runtime:removeEventListener("collision", onCollision)
   				rollybear.alpha = 0 
-  				storyboard.showOverlay( "gameoveroverlay" ,{effect = "fade"  ,  params ={curLevel = currentLevel}, isModal = true} )	
-  				--storyboard.showOverlay( "gameoveroverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )	
+  				storyboard.showOverlay( "gameoveroverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )	
   			end
 	end
 

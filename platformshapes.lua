@@ -495,6 +495,98 @@ function M.physicsData(scale)
                     
 		}
 		
+		, 
+		["chestclosed"] = {
+                    
+                    
+                    
+                    
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -59.5, 26  ,  58.5, 27  ,  58.5, 63  ,  -59, 63.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -58, -19.5  ,  -51, -19.5  ,  -50, -18.5  ,  -59.5, -14  ,  -59.5, -19  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -62.5, 13  ,  -61.5, 12  ,  -9, -18.5  ,  58.5, 27  ,  -59.5, 26  ,  -62.5, 23  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   61.5, 23  ,  58.5, 27  ,  50, -18.5  ,  51, -19.5  ,  59, -19.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -9, -18.5  ,  -61.5, 12  ,  -60.5, -13  ,  -59.5, -14  ,  -50, -18.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   58.5, 27  ,  -9, -18.5  ,  -8, -19.5  ,  50, -18.5  }
+                    }
+                    
+                    
+                    
+		}
+		
+		, 
+		["chestopen"] = {
+                    
+                    
+                    
+                    
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -17, -59.5  ,  61.5, -3  ,  60.5, -2  ,  -60.5, -14  ,  -61.5, -15  ,  -61.5, -59  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   61.5, -3  ,  18, -58.5  ,  61, -58.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -59.5, 11  ,  59.5, 15  ,  59.5, 63  ,  -59, 63.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   -13, -61.5  ,  18, -58.5  ,  61.5, -3  ,  -17, -59.5  ,  -14, -61.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   18, -58.5  ,  -13, -61.5  ,  15, -61.5  }
+                    }
+                     ,
+                    {
+                    pe_fixture_id = "", density = 2, friction = 0, bounce = 0, 
+                    filter = { categoryBits = 1, maskBits = 65535, groupIndex = 0 },
+                    shape = {   59.5, 15  ,  -59.5, 11  ,  -60.5, 10  ,  -60.5, -14  ,  60.5, -2  ,  60.5, 14  }
+                    }
+                    
+                    
+                    
+		}
+		
 	} }
 
         -- apply scale factor
