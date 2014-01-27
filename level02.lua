@@ -6,6 +6,7 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local fixedscene = require("fixedScene")
+local sounds = require ("soundsfile")
 
 
 -- TexturePacker --
@@ -34,12 +35,13 @@ local checkLocation
 local currentLevel = 2
 
 
+
 local function btnTap(event)
-	
+	playSFX(audioclick)
 	event.target.xScale = 0.95
 	event.target.yScale = 0.95
 	--
-	storyboard.showOverlay( "pauseoverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )
+	storyboard.showOverlay( "pauseoverlay" ,{effect = "fade"  ,  params ={curLevel = currentLevel}, isModal = true} )
 
 	return true
 end
@@ -97,8 +99,7 @@ function scene:enterScene( event )
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
 
---soundeffects 
-audioaunchBear = audio.loadSound ("audio/wee.mp3")
+playgameMusic(gamebgmusic)
 
 local function rotatePlatform(event)
 	 alerttouched = event.target
@@ -187,7 +188,7 @@ local function movePlatform(event)
                  return true
         end
 --- creation of this levels platforms 
-platformNames = {"platform-brown128", "platform-brownbrick128"};
+platformNames = {"platform-brown128", "platform-brownbrick128" };
 
 for x =1, #platformNames do
 	local platformNum = platformNames[x]
@@ -207,8 +208,7 @@ local function launchRollyBear (event)
  -- code to launch rollybear out of the tube. 
 	display.remove(rotationalert)
 	display.remove( switchOff)
-	audio.play(audioaunchBear)
-	audio.setVolume(0.01, {audioaunchBear} ) 
+	playSFX(audiolaunchbear, 0.1)
 	local switchOn = display.newImageRect ("images/woodleverdown.png", 64, 64)
 	switchOn.x = rock.x -10; switchOn.y = rock.y + 10
 	group:insert(switchOn)
@@ -247,11 +247,14 @@ end
  			--- events which happen when rollbear collides with the treasure chest
  			if (event.object1.myName=="chestClosed" and event.object2.myName=="rollybear") then
   				print ("Yes! found the treasure")
+  				playSFX(audiowinsound)
+  				resetMusic(gamebgmusic)
   				Runtime:removeEventListener("collision", onCollision)
   				display.remove (chestClosed)
   				local chestopen = display.newImage("images/chestopen.png")
   				chestopen.x = chestClosed.x
   				chestopen.y = chestClosed.y 
+  				group:insert(chestopen)
   				trophy:toFront()
   				local function trophyEffect (event)
   					local function showOverlayNext()
@@ -279,7 +282,8 @@ end
 			 then
   				Runtime:removeEventListener("collision", onCollision)
   				rollybear.alpha = 0 
-  				storyboard.showOverlay( "gameoveroverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )	
+  				storyboard.showOverlay( "gameoveroverlay" ,{effect = "fade"  ,  params ={curLevel = currentLevel}, isModal = true} )	
+  				--storyboard.showOverlay( "gameoveroverlay" ,{effect = "fade"  ,  params ={levelNum = "level01"}, isModal = true} )	
   			end
 	end
 

@@ -5,11 +5,17 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local physics = require("physics")
 local level01 = require("level01")
+local sounds = require ("soundsfile")
+local widget = require ("widget")
 local params
+local overlay
+
 
 -- local forward references should go here --
 
 local function btnTap(event)
+	playSFX(audioclick)
+	resetMusic(gamebgmusic)
 	event.target.xScale = 0.95
 	event.target.yScale = 0.95
 	storyboard.gotoScene (  event.target.destination, {params ={curLevel = params.curLevel}, time=800, effect = "fade"} )
@@ -32,7 +38,7 @@ local backgroundOverlay = display.newRect (group, leftScrn-1000, topScrn-1000, w
 				backgroundOverlay:addEventListener ("touch", catchBackgroundOverlay)
 	
 
-local overlay = display.newImage ("images/overlayv2.png", 900 , 500)
+overlay = display.newImage ("images/overlayv2.png", 900 , 500)
 				overlay.x = centerX
 				overlay.y = centerY
 				group:insert (overlay)
@@ -48,7 +54,9 @@ local playBtn = display.newImageRect ("images/playBtn.png", 112, 116)
 				playBtn.x = centerX - overlay.width / 3
 				playBtn.y = centerY + overlay.height/2.2
 				local function hideOverlay(event)
+					playSFX(audioclick)
 					storyboard.hideOverlay("fade", 800)
+					resumeMusic(1)
 				end 
 				playBtn:addEventListener ("tap", hideOverlay)
 				group:insert(playBtn)
@@ -64,11 +72,72 @@ end
 
 
 
+
+
+
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
 
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
+--pauseMusic(gamebgmusic)
+
+
+
+local function switchPressed (event)
+
+local id = event.target.id
+	if id == "soundMusic" then 
+	 	if musicisOn == true then 
+		musicisOn = false
+		audio.stop(1)
+		else 
+		musicisOn = true 
+		playgameMusic (gamebgmusic)
+	 	end 
+	end
+
+	if id == "soundSFX" then 
+		if soundisOn == true then 
+		soundisOn = false
+		else 
+		soundisOn = true 
+	 	end 
+	end
+end 
+
+ 
+
+
+checkboxMusic = widget.newSwitch( { id = "soundMusic" , style = "checkbox", initialSwitchState = musicisOn , onPress = switchPressed} )
+checkboxMusic.x = overlay.width/ 1.8
+checkboxMusic.y = overlay.height/ 1.4
+checkboxMusic.xScale = 2.0
+checkboxMusic.yScale = 2.0 
+group:insert(checkboxMusic)
+
+local musicText = display.newText ("Switch on/off music", 0, 0, "Helvetica", 36)
+musicText:setReferencePoint (display.CenterLeftReferencePoint)
+musicText.x = overlay.width/ 1.8 + 50
+musicText.y = overlay.height/ 1.4
+group:insert(musicText)
+
+checkboxSFX = widget.newSwitch( {id = "soundSFX" , style = "checkbox", initialSwitchState = soundisOn , onPress = switchPressed} )
+checkboxSFX.x = overlay.width/ 1.8
+checkboxSFX.y = overlay.height/ 1.1
+checkboxSFX.xScale = 2.0
+checkboxSFX.yScale = 2.0 
+group:insert(checkboxSFX)
+
+local soundText = display.newText ("Switch on/off sound effects", 0, 0, "Helvetica", 36)
+soundText:setReferencePoint (display.CenterLeftReferencePoint)
+soundText.x = overlay.width/ 1.8 + 50
+soundText.y = overlay.height/ 1.1
+group:insert(soundText)
+
+
+
+
 
 end
 
@@ -115,4 +184,4 @@ scene:addEventListener( "destroyScene", scene )
 
 ---------------------------------------------------------------------------------
 
-return scenee
+return scene

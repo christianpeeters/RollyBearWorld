@@ -2,11 +2,13 @@
 -- See all tutorial @christian.peeters.com
 
 local storyboard = require( "storyboard" )
+local sounds = require ("soundsfile")
 local scene = storyboard.newScene()
 local backbtn
 -- local forward references should go here --
 
 local function btnTap(event)
+	playSFX(audioclick)
 	event.target.xScale = 0.95
 	event.target.yScale =0.95
 	storyboard.gotoScene (  event.target.destination, {effect = "fade"} )

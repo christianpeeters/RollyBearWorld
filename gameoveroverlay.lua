@@ -5,11 +5,13 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local physics = require("physics")
 local level01 = require("level01")
-
+local sounds = require ("soundsfile")
 
 -- local forward references should go here --
 
 local function btnTap(event)
+	playSFX(audioclick)
+	resetMusic(gamebgmusic)
 	event.target.xScale = 0.95
 	event.target.yScale =0.95
 	

@@ -5,11 +5,12 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local physics = require("physics")
 local level01 = require("level01")
-
+local sounds = require ("soundsfile")
 
 -- local forward references should go here --
 
 local function btnTap(event)
+	playSFX(audioclick)
 	event.target.xScale = 0.95
 	event.target.yScale =0.95
 	
@@ -54,7 +55,7 @@ local nextlevelBtn = display.newImageRect ("images/nextlevelBtn.png" ,112, 116)
 			params = event.params
 			print("curlevel value = "..params.curLevel)
 			nextLevel = params.curLevel + 1
-			nextlevelBtn.destination = "level"..tostring(nextLevel)
+			nextlevelBtn.destination = "level0"..tostring(nextLevel)
 			print(nextlevelBtn.destination)
 			nextlevelBtn:addEventListener ("tap", btnTap)
 			group:insert (nextlevelBtn)
